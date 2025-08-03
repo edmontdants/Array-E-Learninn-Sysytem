@@ -15,3 +15,8 @@
 
 # /front-end/Student/@yaireo
 
+bin/
+obj/
+.vs/
+*.user
+*.db
