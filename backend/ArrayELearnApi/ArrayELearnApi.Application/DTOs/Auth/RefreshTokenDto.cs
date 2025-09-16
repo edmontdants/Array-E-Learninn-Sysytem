@@ -1,6 +1,6 @@
-﻿namespace ArrayELearnApi.Application.DTOs
+﻿namespace ArrayELearnApi.Application.DTOs.Auth
 {
-    class RefreshTokenDto
+    public class RefreshTokenDto
     {
     }
 }

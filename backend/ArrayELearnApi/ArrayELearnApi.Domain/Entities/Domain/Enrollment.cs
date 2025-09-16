@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ArrayELearnApi.Domain.Entities.Base;
 
 namespace ArrayELearnApi.Domain.Entities.Domain
 {
-    public class Enrollment
+    public class Enrollment : EntityBase
     {
-        public int Id { get; set; }
-        public string StudentId { get; set; }
-        public ApplicationUser Student { get; set; }
-        public int CourseId { get; set; }
-        public Course Course { get; set; }
-        public DateTime EnrolledAt { get; set; }
-    }
+        public DateTime EnrolledAt { get; set; } = DateTime.Now;
 
+        // Foreign Keys and Navigation Properties
+        public int StudentID { get; set; }
+        public virtual Student Student { get; set; }
+        
+        public int CourseID { get; set; }
+        public virtual Course Course { get; set; }
+    }
 }

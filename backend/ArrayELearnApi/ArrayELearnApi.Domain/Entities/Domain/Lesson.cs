@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ArrayELearnApi.Domain.Entities.Base;
 
 namespace ArrayELearnApi.Domain.Entities.Domain
 {
-    public class Lesson
+    public class Lesson : EntityBase
     {
-        public int Id { get; set; }
         public string Title { get; set; }
         public string ContentUrl { get; set; }
-        public int CourseId { get; set; }
-        public Course Course { get; set; }
+
+        // FKs & Navigation props
+        public int CourseID { get; set; }
+        public virtual Course Course { get; set; }
     }
 }

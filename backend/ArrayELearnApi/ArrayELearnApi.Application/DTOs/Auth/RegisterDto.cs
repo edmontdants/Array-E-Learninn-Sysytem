@@ -1,11 +1,13 @@
 ﻿
-namespace ArrayELearnApi.Application.Features.Auth
+namespace ArrayELearnApi.Application.DTOs.Auth
 {
     public class RegisterDto
     {
+        public string UserName { get; set; }
+        public string FullName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string FullName { get; set; }
-        public string UserType { get; set; } // "Instructor" or "Student"
+        public string ConfirmPassword { get; set; }
+        public List<string> UserRoles { get; set; }
     }
 }

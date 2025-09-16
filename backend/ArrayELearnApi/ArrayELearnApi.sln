@@ -1,15 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99 d17.13
+VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayELearnApi", "ArrayELearnApi\ArrayELearnApi.csproj", "{521452F5-73E5-496E-BD14-432A97B4B2A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayELearnApi.API", "ArrayELearnApi.API\ArrayELearnApi.API.csproj", "{521452F5-73E5-496E-BD14-432A97B4B2A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayELearnApi.Domain", "ArrayELearnApi.Domain\ArrayELearnApi.Domain.csproj", "{4D2D0F1E-072D-46AF-A8CE-87887CA4FB3A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayELearnApi.Application", "ArrayELearnApi.Application\ArrayELearnApi.Application.csproj", "{A4E72C75-069F-4089-8D65-C808AC39DA72}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayELearnApi.Infrastructure", "ArrayELearnApi.Infrastructure\ArrayELearnApi.Infrastructure.csproj", "{F68F0851-3995-4C98-8B56-A4C924E19695}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{66E8B228-2965-4D96-8127-E4BF86B146EC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{A8254023-286E-4F00-B3C5-F7EDFCFAAE63}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{4418F8A0-86FE-4342-90B2-AE3BEF5DD0D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArrayELearnApi.Tests", "ArrayELearnApi.Tests\ArrayELearnApi.Tests.csproj", "{C7BA330F-836C-4757-A229-454FACF0428D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +43,22 @@ Global
 		{F68F0851-3995-4C98-8B56-A4C924E19695}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F68F0851-3995-4C98-8B56-A4C924E19695}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F68F0851-3995-4C98-8B56-A4C924E19695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7BA330F-836C-4757-A229-454FACF0428D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7BA330F-836C-4757-A229-454FACF0428D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7BA330F-836C-4757-A229-454FACF0428D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7BA330F-836C-4757-A229-454FACF0428D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{521452F5-73E5-496E-BD14-432A97B4B2A3} = {4418F8A0-86FE-4342-90B2-AE3BEF5DD0D7}
+		{4D2D0F1E-072D-46AF-A8CE-87887CA4FB3A} = {A8254023-286E-4F00-B3C5-F7EDFCFAAE63}
+		{A4E72C75-069F-4089-8D65-C808AC39DA72} = {A8254023-286E-4F00-B3C5-F7EDFCFAAE63}
+		{F68F0851-3995-4C98-8B56-A4C924E19695} = {4418F8A0-86FE-4342-90B2-AE3BEF5DD0D7}
+		{A8254023-286E-4F00-B3C5-F7EDFCFAAE63} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{4418F8A0-86FE-4342-90B2-AE3BEF5DD0D7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{C7BA330F-836C-4757-A229-454FACF0428D} = {66E8B228-2965-4D96-8127-E4BF86B146EC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A6BCE88C-9A1B-40AF-A3BE-98214858329B}

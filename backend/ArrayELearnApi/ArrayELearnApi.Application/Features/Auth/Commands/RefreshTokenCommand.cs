@@ -3,9 +3,8 @@ using MediatR;
 
 namespace ArrayELearnApi.Application.Features.Auth.Commands
 {
-    public class RefreshTokenCommand : IRequest<LoginResultDto>
+    public class RefreshTokenCommand : IRequest<AuthResponse>
     {
         public string RefreshToken { get; set; }
     }
-
 }

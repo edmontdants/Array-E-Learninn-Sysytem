@@ -1,5 +1,8 @@
-﻿using ArrayELearnApi.Application.DTOs;
-using ArrayELearnApi.Domain.Entities;
+﻿using ArrayELearnApi.Application.DTOs.Auth;
+using ArrayELearnApi.Application.DTOs.Courses;
+using ArrayELearnApi.Application.Features.Auth.Commands;
+using ArrayELearnApi.Domain.Entities.Auth;
+using ArrayELearnApi.Domain.Entities.Domain;
 using AutoMapper;
 
 namespace ArrayELearnApi.Application.Profiles
@@ -9,7 +12,9 @@ namespace ArrayELearnApi.Application.Profiles
         public MappingProfile()
         {
             // Example: CreateMap<SourceDto, DestinationEntity>();
-            CreateMap<RefreshToken, RefreshTokenDto>();
+            CreateMap<RegisterCommand, ApplicationUser>().ReverseMap();
+            CreateMap<RefreshToken, RefreshTokenDto>().ReverseMap();
+            CreateMap<Course, CourseDto>().ReverseMap();
         }
     }
 }

@@ -1,47 +1,52 @@
 ﻿using ArrayELearnApi.Application.DTOs.Auth;
 using ArrayELearnApi.Application.Features.Auth.Commands;
+using ArrayELearnApi.Application.Interfaces.Auth;
 using ArrayELearnApi.Domain.Entities;
-using ArrayELearnApi.Domain.Interfaces;
+using ArrayELearnApi.Domain.Entities.Auth;
+using ArrayELearnApi.Domain.Interfaces.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 
 namespace ArrayELearnApi.Application.Features.Auth.Handlers
 {
-    public class LoginRequestHandler : IRequestHandler<LoginCommand, LoginResultDto>
+    internal sealed class LoginHandler(UserManager<ApplicationUser> userManager, IRefreshTokenRepository refreshTokenRepo, IJwtTokenGenerator JwtTokenGenerator, ILogger<LoginHandler> logger) : IRequestHandler<LoginCommand, AuthResponse>
     {
-        private readonly IRefreshTokenRepository _refreshTokenRepo;
-        private readonly IJwtTokenGenerator _IJwtTokenGenerator;
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public LoginRequestHandler(UserManager<ApplicationUser> userManager, IRefreshTokenRepository refreshTokenRepo, IJwtTokenGenerator IJwtTokenGenerator)
+        public async Task<AuthResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            _refreshTokenRepo = refreshTokenRepo;
-            _IJwtTokenGenerator = IJwtTokenGenerator;
-            _userManager = userManager;
-        }
-
-        public async Task<LoginResultDto> Handle(LoginCommand request, CancellationToken cancellationToken)
-        {
-            var user = await _userManager.FindByEmailAsync(request.Email);
-            if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
-                return null;
-
-            var roles = await _userManager.GetRolesAsync(user);
-            var jwtToken = _IJwtTokenGenerator.GenerateJwtToken(user, roles);
-
-            var refreshToken = new RefreshToken
+            try
             {
-                Token = Guid.NewGuid().ToString(),
-                UserId = user.Id,
-                Expires = DateTime.UtcNow.AddDays(7),
-                IsRevoked = false,
-                IsUsed = false
-            };
+                ApplicationUser user;
+                if (!string.IsNullOrEmpty(request.Email))
+                    user = await userManager.FindByEmailAsync(request.Email);
+                else
+                    user = await userManager.FindByNameAsync(request.UserName);
 
-            await _refreshTokenRepo.AddAsync(refreshToken);
-            await _refreshTokenRepo.SaveChangesAsync();
+                if (user == null || !await userManager.CheckPasswordAsync(user, request.Password))
+                    return new AuthResponse { IsSuccessed = false, Message = "User doesn't exist or Invalid credentials" };
 
-            return new LoginResultDto { Token = jwtToken, RefreshToken = refreshToken.Token };
+                var jwtToken = await JwtTokenGenerator.GenerateJwtTokenAsync(user);
+
+                var refreshToken = new RefreshToken
+                {
+                    Token = Guid.NewGuid().ToString(),
+                    UserId = user.Id,
+                    Expires = DateTime.Now.AddDays(30),
+                    IsRevoked = false,
+                    IsUsed = false
+                };
+
+                refreshTokenRepo.Add(refreshToken);
+                await refreshTokenRepo.SaveChangesAsync();
+
+                return new AuthResponse { IsSuccessed = true, Message = "User logged in successfully", AccessToken = jwtToken, RefreshToken = refreshToken.Token };
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unhandled exception in LoginHandler {@ex}", ex);
+                throw;
+            }
+            
         }
     }
 }

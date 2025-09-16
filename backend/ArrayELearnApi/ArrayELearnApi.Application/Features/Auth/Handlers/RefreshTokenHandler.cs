@@ -1,44 +1,55 @@
-﻿using ArrayELearnApi.Application.DTOs;
-using ArrayELearnApi.Application.Helpers;
+﻿using ArrayELearnApi.Application.DTOs.Auth;
+using ArrayELearnApi.Application.Features.Auth.Commands;
+using ArrayELearnApi.Application.Interfaces.Auth;
 using ArrayELearnApi.Domain.Entities;
-using ArrayELearnApi.Domain.Interfaces;
+using ArrayELearnApi.Domain.Entities.Auth;
+using ArrayELearnApi.Domain.Interfaces.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System.Data;
+using Microsoft.Extensions.Logging;
 
-namespace ArrayELearnApi.Application.Commands
+namespace ArrayELearnApi.Application.Features.Auth.Handlers
 {
-    public class RefreshTokenRequestHandler : IRequestHandler<RefreshTokenCommand, LoginResultDto>
+    internal sealed class RefreshTokenHandler(UserManager<ApplicationUser> userManager, IRefreshTokenRepository refreshTokenRepo, IJwtTokenGenerator JwtTokenGenerator, ILogger<RefreshTokenHandler> logger) : IRequestHandler<RefreshTokenCommand, AuthResponse>
     {
-        private readonly IRefreshTokenRepository _refreshTokenRepo;
-        private readonly IJwtTokenGenerator _IJwtTokenGenerator;
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public RefreshTokenRequestHandler(UserManager<ApplicationUser> userManager, IRefreshTokenRepository refreshTokenRepo, IJwtTokenGenerator IJwtTokenGenerator)
+        public async Task<AuthResponse> Handle(RefreshTokenCommand request, CancellationToken cancellationToken = default)
         {
-            _refreshTokenRepo = refreshTokenRepo;
-            _IJwtTokenGenerator = IJwtTokenGenerator;
-            _userManager = userManager;
-        }
+            try
+            {
+                var storedToken = await refreshTokenRepo.GetByTokenAsync(request.RefreshToken, cancellationToken);
+                if (storedToken == null || storedToken.IsRevoked || storedToken.IsUsed || storedToken.Expires < DateTime.Now)
+                    return null;
 
-        public async Task<LoginResultDto> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
-        {
-            var storedToken = await _refreshTokenRepo.GetByTokenAsync(request.RefreshToken);
-            if (storedToken == null || storedToken.IsRevoked || storedToken.IsUsed || storedToken.Expires < DateTime.UtcNow)
-                return null;
+                storedToken.IsUsed = true;
+                await refreshTokenRepo.SaveChangesAsync();
 
-            storedToken.IsUsed = true;
-            await _refreshTokenRepo.SaveChangesAsync();
+                var user = await userManager.FindByIdAsync(storedToken.UserId);
+                if (user == null)
+                {
+                    logger.LogError("User not found: {UserID}", storedToken.UserId);
+                    return new AuthResponse() { Message = "User not found", IsSuccessed = false };
+                }
 
-            var user = await _userManager.FindByIdAsync(storedToken.UserId);
-            var roles = await _userManager.GetRolesAsync(user);
-            var newJwt = _IJwtTokenGenerator.GenerateJwtToken(user, roles);
-            var newRefreshToken = new RefreshToken { Token = Guid.NewGuid().ToString(), UserId = storedToken.UserId, Expires = DateTime.UtcNow.AddDays(7) };
-            await _refreshTokenRepo.AddAsync(newRefreshToken);
-            await _refreshTokenRepo.SaveChangesAsync();
+                var newJwt = await JwtTokenGenerator.GenerateJwtTokenAsync(user);
+                var newRefreshToken = new RefreshToken { Token = Guid.NewGuid().ToString(), UserId = storedToken.UserId, Expires = DateTime.Now.AddDays(7) };
+                refreshTokenRepo.Add(newRefreshToken);
+                await refreshTokenRepo.SaveChangesAsync();
 
-            return new LoginResultDto { Token = newJwt, RefreshToken = newRefreshToken.Token };
+                return new AuthResponse { AccessToken = newJwt, RefreshToken = newRefreshToken.Token };
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (consider using a logging framework)
+                // You can also rethrow the exception or handle it as needed
+                // For now, we will just rethrow it
+                // Note: In production code, consider logging the exception
+                // and returning a more user-friendly error message.
+                // This is a placeholder for actual logging logic
+                logger.LogError(ex, "Unhandled error in RefreshTokenHandler {Exception}", ex);
+                // Rethrow the exception to be handled by the global exception handler
+                // or middleware.
+                throw;
+            }
         }
     }
-
 }

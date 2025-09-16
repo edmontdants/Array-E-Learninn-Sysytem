@@ -1,7 +1,14 @@
-﻿
+﻿using ArrayELearnApi.Domain.Interfaces.Repositories;
+
 namespace ArrayELearnApi.Application.Services
 {
     public class CourseService
     {
+        private readonly ICourseRepository _courseRepository;
+
+        public CourseService(ICourseRepository courseRepository)
+        {
+            _courseRepository = courseRepository;
+        }
     }
 }

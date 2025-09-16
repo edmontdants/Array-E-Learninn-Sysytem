@@ -1,10 +1,10 @@
-﻿using MediatR;
+﻿using ArrayELearnApi.Application.DTOs.Auth;
+using MediatR;
 
 namespace ArrayELearnApi.Application.Features.Auth.Commands
 {
-    public class RegisterCommand : IRequest<bool>
+    public class RegisterCommand : RegisterDto, IRequest<AuthResponse> 
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        
     }
 }

@@ -1,20 +1,25 @@
-﻿using ArrayELearnApi.Application.Commands;
-using ArrayELearnApi.Domain.Interfaces;
+﻿using ArrayELearnApi.Application.Features.Auth.Commands;
+using ArrayELearnApi.Domain.Interfaces.Repositories;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
-namespace ArrayELearnApi.Application.Handlers
+namespace ArrayELearnApi.Application.Features.Auth.Handlers
 {
-    public class RevokeRefreshTokenRequestHandler : IRequestHandler<RevokeRefreshTokenCommand, bool>
+    internal sealed class RevokeRefreshTokenHandler(IRefreshTokenRepository refreshTokenRepo, ILogger<RevokeRefreshTokenHandler> logger) : IRequestHandler<RevokeRefreshTokenCommand, bool>
     {
-        private readonly IRefreshTokenRepository _refreshTokenRepo;
-
-        public RevokeRefreshTokenRequestHandler(IRefreshTokenRepository refreshTokenRepo) => _refreshTokenRepo = refreshTokenRepo;
-
         public async Task<bool> Handle(RevokeRefreshTokenCommand request, CancellationToken cancellationToken)
         {
-            await _refreshTokenRepo.RevokeAsync(request.RefreshToken);
-            await _refreshTokenRepo.SaveChangesAsync();
-            return true;
+            try
+            {
+                await refreshTokenRepo.RevokeAsync(request.RefreshToken, cancellationToken);
+                await refreshTokenRepo.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Unhandled error in RevokeRefreshTokenHandler {Exception}", ex);
+                return false;
+            }
         }
     }
 }

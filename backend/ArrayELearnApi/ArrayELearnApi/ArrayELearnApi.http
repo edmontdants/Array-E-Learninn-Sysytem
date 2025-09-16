@@ -1,6 +1,0 @@
-@ArrayELearnApi_HostAddress = http://localhost:5014
-
-GET {{ArrayELearnApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###

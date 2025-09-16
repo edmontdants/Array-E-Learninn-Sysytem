@@ -1,7 +1,7 @@
 ﻿using ArrayELearnApi.Application.DTOs;
 using MediatR;
 
-namespace ArrayELearnApi.Application.Commands
+namespace ArrayELearnApi.Application.Features.Auth.Commands
 {
     public class RevokeRefreshTokenCommand : IRequest<bool>
     {
