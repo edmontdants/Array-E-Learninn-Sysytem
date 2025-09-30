@@ -6,8 +6,8 @@ namespace ArrayELearnApi.Domain.Entities.Domain
     public class Instructor : EntityBase
     {
         // Instructor-specific props
-        public string Designation { get; set; }
-        public string Education { get; set; }
+        public string? Designation { get; set; }
+        public string? Education { get; set; }
 
         // Foreign key to Identity        
         public string UserID { get; set; }

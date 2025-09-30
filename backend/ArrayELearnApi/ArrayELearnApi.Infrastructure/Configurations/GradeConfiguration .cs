@@ -11,13 +11,13 @@ namespace ArrayELearnApi.Infrastructure.Configurations
             builder.HasKey(g => g.ID);
 
             builder.Property(g => g.Value).IsRequired();
-            builder.Property(g => g.Remarks).HasMaxLength(2000);
+            builder.Property(g => g.Remarks).HasMaxLength(1000);
             builder.Property(g => g.GradedAt).HasDefaultValueSql("GETDATE()");
-            builder.Property(e => e.CREATIONDATE).HasDefaultValueSql("GETDATE()");
+            builder.Property(g => g.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
-            builder.HasOne(l => l.Status)
+            builder.HasOne(g => g.Status)
                    .WithMany()
-                   .HasForeignKey(l => l.StatusID)
+                   .HasForeignKey(g => g.StatusID)
                    .OnDelete(DeleteBehavior.Restrict);
         }
     }

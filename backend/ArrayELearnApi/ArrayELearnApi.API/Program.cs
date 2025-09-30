@@ -1,15 +1,12 @@
 using ArrayELearnApi.API.Filters;
 using ArrayELearnApi.API.Middlewares;
 using ArrayELearnApi.Application.Extensions;
-using ArrayELearnApi.Application.Services;
 using ArrayELearnApi.Domain.Entities.Auth;
 using ArrayELearnApi.Infrastructure.Extensions;
 using ArrayELearnApi.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System.Text;
@@ -78,6 +75,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
                 {
                     options.Password.RequiredLength = 6;
                     options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -150,11 +148,11 @@ var app = builder.Build();
 #region Configure the HTTP request pipeline.
 
 // Seed roles & admin
-//using (var scope = app.Services.CreateScope())
-//{
-//    var services = scope.ServiceProvider;
-//    await SeedData.InitializeAsync(services);
-//}
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await SeedData.InitializeAsync(services);
+}
 
 // Middleware & endpoints
 //app.UseMiddleware<ExceptionHandlingMiddleware>();

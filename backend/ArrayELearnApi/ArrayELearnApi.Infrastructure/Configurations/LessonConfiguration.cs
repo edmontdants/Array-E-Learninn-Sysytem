@@ -8,7 +8,9 @@ namespace ArrayELearnApi.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Lesson> builder)
         {
-            builder.Property(e => e.CREATIONDATE).HasDefaultValueSql("GETDATE()");
+            builder.HasKey(l => l.ID);
+
+            builder.Property(l => l.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
             builder.HasOne(l => l.Status)
                    .WithMany()

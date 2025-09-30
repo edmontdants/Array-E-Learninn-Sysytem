@@ -10,9 +10,10 @@ namespace ArrayELearnApi.Infrastructure.Configurations
         {
             // Optional: configure composite PK for join table
             //builder.HasKey(ct => new { ct.CourseID, ct.TagID });
+            //builder.Ignore(ct => ct.ID);
             builder.HasKey(ct => ct.ID);
 
-            builder.Property(e => e.CREATIONDATE).HasDefaultValueSql("GETDATE()");
+            builder.Property(ct => ct.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
             builder.HasOne(ct => ct.Course)
                    .WithMany(c => c.CourseTags)
@@ -24,10 +25,20 @@ namespace ArrayELearnApi.Infrastructure.Configurations
                    .HasForeignKey(ct => ct.TagID)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(a => a.Status)
+            builder.HasOne(ct => ct.Status)
                    .WithMany()
-                   .HasForeignKey(a => a.StatusID)
+                   .HasForeignKey(ct => ct.StatusID)
                    .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(ct => ct.CREATEDBYUSER)
+                   .WithMany()
+                   .HasForeignKey(ct => ct.CREATEDBY)
+                   .OnDelete(DeleteBehavior.Restrict); // or .SetNull
+
+            builder.HasOne(ct => ct.MODIFIEDBYUSER)
+                   .WithMany()
+                   .HasForeignKey(ct => ct.MODIFIEDBY)
+                   .OnDelete(DeleteBehavior.Restrict); // or .SetNull
         }
     }
 }

@@ -5,11 +5,14 @@ namespace ArrayELearnApi.Domain.Entities.Domain
 {
     public class Notification : EntityBase
     {
-        public string Content { get; set; }
+        public bool IsRead { get; set; } = false; // Track if notification has been read
         public DateTime CreatedAt { get; set; } = DateTime.Now;
-        public bool IsRead { get; set; }
+        
+        public string RecipientID { get; set; }  // FK to ApplicationUser
+        public virtual ApplicationUser Recipient { get; set; }
 
-        public string UserID { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public int MessageID { get; set; }  // FK to NotificationMessage
+        public virtual NotificationMessage Message { get; set; }
+
     }
 }

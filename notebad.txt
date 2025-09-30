@@ -1,0 +1,29 @@
+regarding the ApplicationUser entity
+I am using UserRole enum         public UserRole Role { get; set; } // "Instructor", "Student", "Admin"
+instead of  public string UserType { get; set; }
+
+and I have added virtual to all navigation properties in case I un-intentionally used lazy loading
+
+why you use string for any foriegn key Ids for types that refernce type of ApplicationUser
+
+
+// exceptions
+System.InvalidOperationException: 'Both relationships between 'Attendance.Student' and 'ApplicationUser.Attendances' and between 'Attendance' and 'Student.Attendances' could use {'StudentId'} as the foreign key. To resolve this, configure the foreign key properties explicitly in 'OnModelCreating' on at least one of the relationships.'
+
+
+Attendance.Student : ApplicationUser.Attendances
+1 User : M Attendances
+
+Student.Attendances : Attendance
+1 Attendance : 1 User
+
+
+
+Unhandled exception. System.InvalidOperationException: Property 'Category.Courses' is not virtual. 'UseChangeTrackingProxies' requires all entity types to be public, unsealed, have virtual properties, and have a public or protected constructor. 'UseLazyLoadingProxies' requires only the navigation properties be virtual.
+
+Unhandled exception. System.InvalidOperationException: Property 'Language.Courses' is not virtual. 'UseChangeTrackingProxies' requires all entity types to be public, unsealed, have virtual properties, and have a public or protected constructor. 'UseLazyLoadingProxies' requires only the navigation properties be virtual.
+
+Unhandled exception. System.InvalidOperationException: The relationship from 'SupportTicket.User' to 'ApplicationUser.SupportTickets' with foreign key properties {'UserID' : int} cannot target the primary key {'Id' : string} because it is not compatible. Configure a principal key or a set of foreign key properties with compatible types for this relationship.   at Microsoft.EntityFrameworkCore.Infrastructure.ModelValidator.ValidateNoShadowKeys(IModel model, IDiagnosticsLogger`1 logger)
+
+
+System.AggregateException: 'Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: MediatR.IRequestHandler`2[ArrayELearnApi.Application.Features.Auth.Commands.RegisterCommand,ArrayELearnApi.Application.DTOs.Auth.AuthResponse] Lifetime: Transient ImplementationType: ArrayELearnApi.Application.Features.Auth.Handlers.RegisterHandler': Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContext' while attempting to activate 'ArrayELearnApi.Infrastructure.Repositories.UnitOfWork'.) (Error while validating the service descriptor 'ServiceType: FluentValidation.IValidator`1[ArrayELearnApi.Application.Features.Auth.Commands.RegisterCommand] Lifetime: Scoped ImplementationType: ArrayELearnApi.Application.Validators.Auth.RegisterRequestAsyncValidator': Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContext' while attempting to activate 'ArrayELearnApi.Infrastructure.Repositories.UnitOfWork'.) (Error while validating the service descriptor 'ServiceType: ArrayELearnApi.Application.Validators.Auth.RegisterRequestAsyncValidator Lifetime: Scoped ImplementationType: ArrayELearnApi.Application.Validators.Auth.RegisterRequestAsyncValidator': Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContext' while attempting to activate 'ArrayELearnApi.Infrastructure.Repositories.UnitOfWork'.) (Error while validating the service descriptor 'ServiceType: ArrayELearnApi.Domain.Interfaces.Repositories.IUnitOfWork Lifetime: Scoped ImplementationType: ArrayELearnApi.Infrastructure.Repositories.UnitOfWork': Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContext' while attempting to activate 'ArrayELearnApi.Infrastructure.Repositories.UnitOfWork'.)'

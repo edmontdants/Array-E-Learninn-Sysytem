@@ -8,11 +8,14 @@ namespace ArrayELearnApi.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.Property(e => e.CREATIONDATE).HasDefaultValueSql("GETDATE()");
+            builder.HasKey(c => c.ID);
+
+            builder.Property(c => c.Name).IsRequired().HasMaxLength(200);
+            builder.Property(c => c.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
             builder.HasOne(c => c.Status)
                    .WithMany()
-                   .HasForeignKey(a => a.StatusID)
+                   .HasForeignKey(c => c.StatusID)
                    .OnDelete(DeleteBehavior.Restrict);
         }
     }

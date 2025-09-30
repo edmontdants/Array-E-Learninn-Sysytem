@@ -1,20 +1,25 @@
 ﻿using ArrayELearnApi.Domain.Interfaces.Repositories;
-using ArrayELearnApi.Infrastructure.Persistence;
+using ArrayELearnApi.Domain.Interfaces.UoW;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using System.Data;
 
 namespace ArrayELearnApi.Infrastructure.Repositories
 {
-    internal class UnitOfWork(ApplicationDbContext context, IServiceProvider serviceProvider) : IUnitOfWork
+    internal class UnitOfWork<TContext>(TContext context,
+                                        IServiceProvider serviceProvider) : IApplicationUnitOfWork, ILoggingUnitOfWork where TContext : DbContext
     {
         private bool _disposed = false;
 
         // entity-specific derived Repos
         public IUserRepository userRepository { get; } = serviceProvider.GetRequiredService<IUserRepository>();
+        public IStudentRepository studentRepository { get; } = serviceProvider.GetRequiredService<IStudentRepository>();
+        public IInstructorRepository instructorRepository { get; } = serviceProvider.GetRequiredService<IInstructorRepository>();
         public ICourseRepository courseRepository => serviceProvider.GetRequiredService<ICourseRepository>();
         public ISubmissionRepository submissionRepository => serviceProvider.GetRequiredService<ISubmissionRepository>();
         public IRefreshTokenRepository refreshTokenRepository => serviceProvider.GetRequiredService<IRefreshTokenRepository>();
+        public IStatusRepository statusRepository => serviceProvider.GetRequiredService<IStatusRepository>();
 
         public IRepository<TEntity> Repository<TEntity>() where TEntity : class
         {
@@ -34,12 +39,12 @@ namespace ArrayELearnApi.Infrastructure.Repositories
         }
 
         // Real EF Core return value
-        public async Task<int> SaveChangesAsync(CancellationToken ct = default)
-            => await context.SaveChangesAsync(ct);
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+            => await context.SaveChangesAsync(cancellationToken);
 
         // Simplified commit that ignores return value
-        public async Task CommitAsync(CancellationToken ct = default)
-            => await context.SaveChangesAsync(ct);
+        public async Task CommitAsync(CancellationToken cancellationToken = default)
+            => await context.SaveChangesAsync(cancellationToken);
 
         public void Dispose()
         {

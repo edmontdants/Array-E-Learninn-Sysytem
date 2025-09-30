@@ -3,7 +3,8 @@ using ArrayELearnApi.Application.Features.Auth.Commands;
 using ArrayELearnApi.Application.Interfaces.Auth;
 using ArrayELearnApi.Domain.Constants;
 using ArrayELearnApi.Domain.Entities.Auth;
-using ArrayELearnApi.Domain.Interfaces.Repositories;
+using ArrayELearnApi.Domain.Entities.Domain;
+using ArrayELearnApi.Domain.Interfaces.UoW;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -12,7 +13,11 @@ using System.Data;
 
 namespace ArrayELearnApi.Application.Features.Auth.Handlers
 {
-    public class RegisterHandler(IUnitOfWork uow, UserManager<ApplicationUser> userManager, IMapper mapper, IJwtTokenGenerator JwtTokenGenerator, ILogger<RegisterHandler> logger) : IRequestHandler<RegisterCommand, AuthResponse>
+    public class RegisterHandler(IApplicationUnitOfWork uow,
+                                 UserManager<ApplicationUser> userManager,
+                                 IMapper mapper,
+                                 IJwtTokenGenerator JwtTokenGenerator,
+                                 ILogger<RegisterHandler> logger) : IRequestHandler<RegisterCommand, AuthResponse>
     {
         public async Task<AuthResponse> Handle(RegisterCommand request, CancellationToken cancellationToken)
         {
@@ -25,6 +30,7 @@ namespace ArrayELearnApi.Application.Features.Auth.Handlers
                 //    return new AuthResponse { Message = "Email is Already registered.", IsAuthed = false };
 
                 var user = mapper.Map<ApplicationUser>(request);
+                user.CREATEDBY = user.Id;
                 var result = await userManager.CreateAsync(user, request.Password);
                 if (!result.Succeeded)
                 {
@@ -43,6 +49,12 @@ namespace ArrayELearnApi.Application.Features.Auth.Handlers
                         logger.LogError("Failed to assign default role: {Errors}", string.Join(", ", roleResult.Errors.Select(e => e.Description)));
                         return new AuthResponse { IsSuccessed = false, Message = errors };
                     }
+                    
+                    var studentRepository = uow.studentRepository;
+                    var student = mapper.Map<Student>(user);
+                    student.CREATEDBY = user.Id;
+                    studentRepository.Add(student);
+                    await studentRepository.SaveChangesAsync();
                 }
                 else
                 {

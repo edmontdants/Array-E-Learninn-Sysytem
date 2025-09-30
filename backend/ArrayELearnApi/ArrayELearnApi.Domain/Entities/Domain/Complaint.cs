@@ -6,7 +6,7 @@ namespace ArrayELearnApi.Domain.Entities.Domain
     {
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
         public string Status { get; set; } = "Open"; // Open, In Progress, Resolved
 
         // Foreign Key to Student

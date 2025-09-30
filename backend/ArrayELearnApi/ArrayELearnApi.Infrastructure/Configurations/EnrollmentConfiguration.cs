@@ -9,6 +9,8 @@ namespace ArrayELearnApi.Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<Enrollment> builder)
         {
             builder.HasKey(e => e.ID);
+            builder.HasIndex(e => new { e.StudentID, e.CourseID }).IsUnique(); // prevent double-enroll
+
             builder.Property(e => e.EnrolledAt).HasDefaultValueSql("GETDATE()");
             builder.Property(e => e.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
@@ -22,12 +24,11 @@ namespace ArrayELearnApi.Infrastructure.Configurations
                    .HasForeignKey(e => e.CourseID)
                    .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(a => a.Status)
+            builder.HasOne(e => e.Status)
                    .WithMany()
-                   .HasForeignKey(a => a.StatusID)
+                   .HasForeignKey(e => e.StatusID)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(e => new { e.StudentID, e.CourseID }).IsUnique(); // prevent double-enroll
         }
     }
 }

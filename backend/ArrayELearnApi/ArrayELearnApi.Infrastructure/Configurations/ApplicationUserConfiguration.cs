@@ -10,32 +10,24 @@ namespace ArrayELearnApi.Infrastructure.Configurations
         {
             // Keys & indexes
             builder.HasKey(u => u.Id);
-
-            builder.Property(u => u.UserName).IsRequired().HasMaxLength(100);
+            builder.HasIndex(u => u.Email).IsUnique();
             builder.HasIndex(u => u.UserName).IsUnique();
 
-            builder.Property(x => x.Email).IsRequired().HasMaxLength(255);
-            builder.HasIndex(x => x.Email).IsUnique();
-
-            builder.Property(u => u.FirstName)
-                   .IsRequired()
-                   .HasMaxLength(100);
-
-            builder.Property(u => u.LastName)
-                   .IsRequired()
-                   .HasMaxLength(100);
+            builder.Property(u => u.Email).IsRequired().HasMaxLength(256);
+            builder.Property(u => u.UserName).IsRequired().HasMaxLength(256);
+            builder.Property(u => u.PhoneNumber).HasMaxLength(100);
+            builder.Property(u => u.FirstName).HasMaxLength(100);
+            builder.Property(u => u.LastName).HasMaxLength(100);
+            builder.Property(u => u.ProfilePictureUrl).HasMaxLength(500);
+            builder.Property(u => u.SecurityStamp).HasMaxLength(4000);
+            builder.Property(u => u.ConcurrencyStamp).HasMaxLength(4000);
+            builder.Property(u => u.PasswordHash).HasMaxLength(4000);
+            builder.Property(u => u.JoinedAt).HasDefaultValueSql("GETDATE()");
+            builder.Property(u => u.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
             builder.Property(u => u.FullName)
+                   .HasMaxLength(200)
                    .HasComputedColumnSql("[FirstName] + ' ' + [LastName]", stored: true);
-
-            builder.Property(u => u.DateOfBirth)
-                   .IsRequired();
-
-            builder.Property(u => u.JoinedAt)
-                   .HasDefaultValueSql("GETDATE()");
-
-            builder.Property(u => u.CREATIONDATE)
-                   .HasDefaultValueSql("GETDATE()");
 
             //builder.Property(u => u.Gender)
             //    .HasConversion<int>() // store enum as int
@@ -46,12 +38,14 @@ namespace ArrayELearnApi.Infrastructure.Configurations
                    .HasForeignKey(u => u.GenderID)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Property(u => u.ProfilePictureUrl)
-                .HasMaxLength(500);
+            builder.HasOne(u => u.CREATEDBYUSER)
+                   .WithMany(u => u.CREATEDUSERS)
+                   .HasForeignKey(u => u.CREATEDBY)
+                   .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(u => u.Notifications)
-                   .WithOne(n => n.User)
-                   .HasForeignKey(n => n.UserID)
+            builder.HasOne(u => u.MODIFIEDBYUSER)
+                   .WithMany(u => u.MODIFIEDUSERS)
+                   .HasForeignKey(u => u.MODIFIEDBY)
                    .OnDelete(DeleteBehavior.Restrict);
         }
     }

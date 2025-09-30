@@ -5,8 +5,8 @@ namespace ArrayELearnApi.Domain.Entities.Domain
     public class Assignment : EntityBase
     {
         public string Title { get; set; }
-        public string Description { get; set; }
-        public DateTime DueDate { get; set; }
+        public string? Description { get; set; }
+        public DateTime? DueDate { get; set; }
         
         // FKs
         public int CourseID { get; set; }

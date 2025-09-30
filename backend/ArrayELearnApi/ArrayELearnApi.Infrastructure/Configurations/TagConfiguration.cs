@@ -8,7 +8,8 @@ namespace ArrayELearnApi.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Tag> builder)
         {
-            builder.Property(e => e.CREATIONDATE).HasDefaultValueSql("GETDATE()");
+            builder.HasKey(t => t.ID);
+            builder.Property(t => t.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
             // Restrict delete from CourseTag side
             builder.HasMany(t => t.CourseTags)

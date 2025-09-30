@@ -10,7 +10,7 @@ namespace ArrayELearnApi.Domain.Entities.Domain
         public DateTime CreatedAt { get; set; }
         public DateTime ArchivedAt { get; set; } = DateTime.Now;
 
-        public string UserID { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public string RecipientID { get; set; }
+        public virtual ApplicationUser Recipient { get; set; }
     }
 }

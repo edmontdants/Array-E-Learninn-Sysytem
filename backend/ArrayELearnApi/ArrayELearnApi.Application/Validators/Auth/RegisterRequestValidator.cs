@@ -1,5 +1,5 @@
 ﻿using ArrayELearnApi.Application.Features.Auth.Commands;
-using ArrayELearnApi.Domain.Interfaces.Repositories;
+using ArrayELearnApi.Domain.Interfaces.UoW;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 
@@ -7,7 +7,7 @@ namespace ArrayELearnApi.Application.Validators.Auth
 {
     internal sealed class RegisterRequestAsyncValidator : AbstractValidator<RegisterCommand>
     {
-        public RegisterRequestAsyncValidator(IUnitOfWork uow, RoleManager<IdentityRole> roleManager, UserRolesAsyncValidator userRolesAsyncValidator)
+        public RegisterRequestAsyncValidator(IApplicationUnitOfWork uow, RoleManager<IdentityRole> roleManager, UserRolesAsyncValidator userRolesAsyncValidator)
         {
             var userRepository = uow.userRepository;
 

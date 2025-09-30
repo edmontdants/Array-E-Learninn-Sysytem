@@ -22,6 +22,7 @@ namespace ArrayELearnApi.Controllers
                                                      [FromServices] IValidator<RevokeRolesCommand> validator)
         {
             //var validator = serviceProvider.GetRequiredService<IValidator<AssignRolesCommand>>();
+            //await validator.ValidateAsync(request, cancellation);
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
@@ -37,7 +38,6 @@ namespace ArrayELearnApi.Controllers
                                                      [FromServices] IValidator<AssignRolesCommand> validator,
                                                      CancellationToken cancellation)
         {
-            //var validator = serviceProvider.GetRequiredService<IValidator<AssignRolesCommand>>();
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
@@ -53,7 +53,6 @@ namespace ArrayELearnApi.Controllers
                                                   [FromServices] IValidator<RegisterCommand> validator,
                                                   CancellationToken cancellation)
         {
-            //var validator = serviceProvider.GetRequiredService<IValidator<RegisterCommand>>();
             var validationResult = await validator.ValidateAsync(request, cancellation);
             if(!validationResult.IsValid)
             {
@@ -68,7 +67,6 @@ namespace ArrayELearnApi.Controllers
                                                [FromServices] IValidator<LoginCommand> validator,
                                                CancellationToken cancellation)
         {
-            //var validator = serviceProvider.GetRequiredService<IValidator<LoginCommand>>();
             var validationResult = await validator.ValidateAsync(request, cancellation);
             if (!validationResult.IsValid)
             {

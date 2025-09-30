@@ -1,7 +1,7 @@
 ﻿
 namespace ArrayELearnApi.Domain.Constants
 {
-    public record UserRole
+    public static class UserRole
     {
         public const string Owner = nameof(Owner);
         public const string Supervisor = nameof(Supervisor);

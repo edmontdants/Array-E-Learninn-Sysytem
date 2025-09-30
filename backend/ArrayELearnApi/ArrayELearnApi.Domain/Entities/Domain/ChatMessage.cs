@@ -7,7 +7,7 @@ namespace ArrayELearnApi.Domain.Entities.Domain
     {
         public string Message { get; set; }
         public DateTime SentAt { get; set; } = DateTime.Now;
-        public bool IsRead { get; set; }
+        public bool IsRead { get; set; } = false;
 
         public string SenderID { get; set; }
         public virtual ApplicationUser Sender { get; set; }

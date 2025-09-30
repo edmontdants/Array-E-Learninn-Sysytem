@@ -6,10 +6,10 @@ namespace ArrayELearnApi.Domain.Entities.Domain
     public class Student : EntityBase
     {
         // Student-specific props
-        public string ParentName { get; set; }
-        public string ParentPhoneNumber { get; set; }
-        public string BloodGroup { get; set; }
-        public string Address { get; set; }
+        public string? ParentName { get; set; }
+        public string? ParentPhoneNumber { get; set; }
+        public string? BloodGroup { get; set; }
+        public string? Address { get; set; }
         
         public string UserID { get; set; }  // Foreign key to Identity
         public virtual ApplicationUser User { get; set; }

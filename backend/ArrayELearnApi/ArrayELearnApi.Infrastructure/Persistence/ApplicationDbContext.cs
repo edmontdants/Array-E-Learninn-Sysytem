@@ -51,13 +51,16 @@ namespace ArrayELearnApi.Infrastructure.Persistence
             }
         }
 
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Server=localhost; Database=ArrayELearnDb; MultipleActiveResultSets=True; Trusted_Connection=True; TrustServerCertificate=True;", b => b.MigrationsAssembly("ArrayELearnApi.API"));
-        //    //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-        //    optionsBuilder.UseLazyLoadingProxies();
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=localhost; Database=ArrayELearnDb; MultipleActiveResultSets=True; Trusted_Connection=True; TrustServerCertificate=True;"
+                                            , b => b.MigrationsAssembly("ArrayELearnApi.Infrastructure"));
+                optionsBuilder.UseLazyLoadingProxies();
+                //optionsBuilder.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            }
+        }
 
         private static LambdaExpression GetIsDeletedRestriction(Type type)
         {

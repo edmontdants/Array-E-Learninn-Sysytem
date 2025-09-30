@@ -9,12 +9,13 @@ namespace ArrayELearnApi.Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<Submission> builder)
         {
             builder.HasKey(s => s.ID);
+            builder.HasIndex(s => new { s.AssignmentID, s.StudentID }).IsUnique(); // one submission per student per assignment
 
-            builder.Property(s => s.SubmittedAt).HasDefaultValueSql("GETDATE()");
-            builder.Property(e => e.CREATIONDATE).HasDefaultValueSql("GETDATE()");
             builder.Property(s => s.FileUrl).IsRequired().HasMaxLength(500);
             //builder.Property(s => s.GradeValue);
             builder.Property(s => s.Feedback).HasMaxLength(2000);
+            builder.Property(s => s.SubmittedAt).HasDefaultValueSql("GETDATE()");
+            builder.Property(s => s.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
             builder.HasOne(s => s.Assignment)
                    .WithMany(a => a.Submissions)
@@ -31,12 +32,11 @@ namespace ArrayELearnApi.Infrastructure.Configurations
                    .HasForeignKey(s => s.GradeID)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(l => l.Status)
+            builder.HasOne(s => s.Status)
                    .WithMany()
-                   .HasForeignKey(l => l.StatusID)
+                   .HasForeignKey(s => s.StatusID)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasIndex(s => new { s.AssignmentID, s.StudentID }).IsUnique(); // one submission per student per assignment
         }
     }
 }

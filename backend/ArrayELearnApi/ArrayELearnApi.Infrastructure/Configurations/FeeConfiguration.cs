@@ -10,9 +10,9 @@ namespace ArrayELearnApi.Infrastructure.Configurations
         {
             builder.HasKey(f => f.ID);
 
-            builder.Property(f => f.Amount).HasColumnType("decimal(12,2)");
             builder.Property(f => f.Description).HasMaxLength(1000);
-            builder.Property(e => e.CREATIONDATE).HasDefaultValueSql("GETDATE()");
+            builder.Property(f => f.Amount).HasColumnType("decimal(12,2)");
+            builder.Property(f => f.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
             builder.HasOne(f => f.Status)
                    .WithMany()

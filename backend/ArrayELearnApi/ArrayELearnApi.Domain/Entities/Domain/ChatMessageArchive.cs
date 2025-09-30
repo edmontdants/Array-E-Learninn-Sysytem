@@ -3,9 +3,8 @@ using ArrayELearnApi.Domain.Entities.Base;
 
 namespace ArrayELearnApi.Domain.Entities.Domain
 {
-    public class ChatMessageArchive : MicroEntityBase
+    public class ChatMessageArchive : EntityBase
     {
-        public int ID { get; set; }
         public string Message { get; set; }
         public DateTime SentAt { get; set; }
         public DateTime ArchivedAt { get; set; } = DateTime.Now;

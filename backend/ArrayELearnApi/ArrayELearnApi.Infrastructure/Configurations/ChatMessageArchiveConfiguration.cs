@@ -9,7 +9,11 @@ namespace ArrayELearnApi.Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<ChatMessageArchive> builder)
         {
             // Keys & indexes
-            builder.HasKey(u => u.ID);
+            builder.HasKey(m => m.ID);
+
+            builder.Property(m => m.Message).IsRequired().HasMaxLength(4000);
+            builder.Property(m => m.ArchivedAt).HasDefaultValueSql("GETDATE()");
+            builder.Property(m => m.CREATIONDATE).HasDefaultValueSql("GETDATE()");
 
             // Relationships
             builder.HasOne(m => m.Sender)

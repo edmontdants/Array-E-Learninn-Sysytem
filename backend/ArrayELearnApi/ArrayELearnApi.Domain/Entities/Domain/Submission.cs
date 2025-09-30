@@ -6,7 +6,7 @@ namespace ArrayELearnApi.Domain.Entities.Domain
     {
         public DateTime SubmittedAt { get; set; } = DateTime.Now;
         public string FileUrl { get; set; }
-        public string Feedback { get; set; }
+        public string? Feedback { get; set; }
 
         // Key Relationships
         public int GradeID { get; set; }

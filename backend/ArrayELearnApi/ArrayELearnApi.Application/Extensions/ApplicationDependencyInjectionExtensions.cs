@@ -1,6 +1,8 @@
 ﻿using ArrayELearnApi.Application.Behaviors;
 using ArrayELearnApi.Application.Features.Auth.Commands;
+using ArrayELearnApi.Application.Interfaces;
 using ArrayELearnApi.Application.Profiles;
+using ArrayELearnApi.Application.Services;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +28,9 @@ namespace ArrayELearnApi.Application.Extensions
             //services.AddValidatorsFromAssemblyContaining(typeof(ApplicationDependencyInjection));
             //services.AddFluentValidationAutoValidation();
 
+            services.AddScoped<IValidationService, ValidationService>();
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(FluentValidationBehavior<,>));
+
 
             return services;
         }

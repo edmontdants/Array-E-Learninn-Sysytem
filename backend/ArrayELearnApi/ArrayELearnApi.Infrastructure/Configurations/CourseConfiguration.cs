@@ -9,14 +9,12 @@ namespace ArrayELearnApi.Infrastructure.Configurations
         public void Configure(EntityTypeBuilder<Course> builder)
         {
             builder.HasKey(c => c.ID);
-
-            builder.Property(c => c.Code).IsRequired().HasMaxLength(50);
             builder.HasIndex(c => c.Code).IsUnique();
 
+            builder.Property(c => c.Code).IsRequired().HasMaxLength(50);
             builder.Property(c => c.Title).IsRequired().HasMaxLength(200);
             builder.Property(c => c.Description).HasMaxLength(4000);
             builder.Property(c => c.Price).HasColumnType("decimal(18,2)");
-            builder.Property(c => c.Fee).HasColumnType("decimal(18,2)");
             builder.Property(c => c.ThumbnailUrl).HasMaxLength(500);
             builder.Property(c => c.Level).HasMaxLength(50);
             builder.Property(c => c.Duration).HasMaxLength(100);
@@ -40,7 +38,7 @@ namespace ArrayELearnApi.Infrastructure.Configurations
                    .HasForeignKey(c => c.LanguageID)
                    .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasMany(s => s.Enrollments)
+            builder.HasMany(c => c.Enrollments)
                    .WithOne(e => e.Course)
                    .HasForeignKey(e => e.CourseID)
                    .OnDelete(DeleteBehavior.Restrict);
@@ -58,9 +56,24 @@ namespace ArrayELearnApi.Infrastructure.Configurations
 
             builder.HasOne(c => c.Instructor)
                    .WithMany(i => i.Courses)
-                   .HasForeignKey(c => c.ID)
+                   .HasForeignKey(c => c.InstructorID)
                    .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasOne(c => c.Status)
+                   .WithMany()
+                   .HasForeignKey(c => c.StatusID)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(c => c.CREATEDBYUSER)
+                   .WithMany()
+                   .HasForeignKey(c => c.CREATEDBY)
+                   .OnDelete(DeleteBehavior.Restrict); // or .SetNull
+
+            builder.HasOne(c => c.MODIFIEDBYUSER)
+                   .WithMany()
+                   .HasForeignKey(c => c.MODIFIEDBY)
+                   .OnDelete(DeleteBehavior.Restrict); // or .SetNull
+            
             // Many-to-many for Categories/Tags can use UsingEntity with join table names if needed.
 
         }

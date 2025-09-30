@@ -1,13 +1,17 @@
-﻿using System.Data;
+﻿using ArrayELearnApi.Domain.Interfaces.Repositories;
+using System.Data;
 
-namespace ArrayELearnApi.Domain.Interfaces.Repositories
+namespace ArrayELearnApi.Domain.Interfaces.UoW
 {
-    public interface IUnitOfWork : IDisposable, IAsyncDisposable
+    public interface IApplicationUnitOfWork : IDisposable, IAsyncDisposable
     {
         IUserRepository userRepository { get; }
+        IStudentRepository studentRepository { get; }
+        IInstructorRepository instructorRepository { get; }
         ICourseRepository courseRepository { get; }
         ISubmissionRepository submissionRepository { get; }
         IRefreshTokenRepository refreshTokenRepository { get; }
+        IStatusRepository statusRepository { get; }
 
         IRepository<TEntity> Repository<TEntity>() where TEntity : class;
 
@@ -18,5 +22,9 @@ namespace ArrayELearnApi.Domain.Interfaces.Repositories
 
         // Simplified commit (for app/business layer when count doesn’t matter)
         Task CommitAsync(CancellationToken cancellationToken = default);
+    }
+
+    public interface IStatusRepository : IRepository<Entities.Base.Status>
+    {
     }
 }

@@ -8,7 +8,12 @@ namespace ArrayELearnApi.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Complaint> builder)
         {
-            builder.Property(e => e.CREATIONDATE).HasDefaultValueSql("GETDATE()");
+            builder.HasKey(c => c.ID);
+
+            builder.Property(c => c.Title).IsRequired().HasMaxLength(200);
+            builder.Property(c => c.Description).IsRequired().HasMaxLength(4000);
+            builder.Property(c => c.CreatedAt).HasDefaultValueSql("GETDATE()");
+            builder.Property(c => c.CREATIONDATE).HasDefaultValueSql("GETDATE()");
         }
     }
 }
