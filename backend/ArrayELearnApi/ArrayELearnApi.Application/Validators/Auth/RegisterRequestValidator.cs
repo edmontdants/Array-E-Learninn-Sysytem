@@ -1,5 +1,5 @@
 ﻿using ArrayELearnApi.Application.Features.Auth.Commands;
-using ArrayELearnApi.Domain.Interfaces.UoW;
+using ArrayELearnApi.Application.Interfaces.UoW;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 

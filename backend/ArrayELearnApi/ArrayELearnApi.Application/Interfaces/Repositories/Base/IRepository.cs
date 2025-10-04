@@ -1,5 +1,4 @@
-﻿
-namespace ArrayELearnApi.Domain.Interfaces.Repositories
+﻿namespace ArrayELearnApi.Application.Interfaces.Repositories.Base
 {
     public interface IRepository<TEntity> where TEntity : class
     {

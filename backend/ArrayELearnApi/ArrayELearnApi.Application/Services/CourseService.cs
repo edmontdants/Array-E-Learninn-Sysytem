@@ -1,4 +1,4 @@
-﻿using ArrayELearnApi.Domain.Interfaces.Repositories;
+﻿using ArrayELearnApi.Application.Interfaces.Repositories;
 
 namespace ArrayELearnApi.Application.Services
 {

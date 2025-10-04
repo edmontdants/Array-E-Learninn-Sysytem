@@ -1,6 +1,6 @@
 ﻿using ArrayELearnApi.Domain.Entities.Domain;
 
-namespace ArrayELearnApi.Domain.Interfaces.Repositories
+namespace ArrayELearnApi.Application.Interfaces.Repositories
 {
     public interface ISubmissionRepository
     {   

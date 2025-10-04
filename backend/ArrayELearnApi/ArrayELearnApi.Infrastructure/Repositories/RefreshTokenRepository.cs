@@ -1,6 +1,7 @@
-﻿using ArrayELearnApi.Domain.Entities.Auth;
-using ArrayELearnApi.Domain.Interfaces.Repositories;
+﻿using ArrayELearnApi.Application.Interfaces.Repositories;
+using ArrayELearnApi.Domain.Entities.Auth;
 using ArrayELearnApi.Infrastructure.Persistence;
+using ArrayELearnApi.Infrastructure.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace ArrayELearnApi.Infrastructure.Repositories

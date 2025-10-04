@@ -1,9 +1,9 @@
-﻿using ArrayELearnApi.Domain.Interfaces.Repositories;
+﻿using ArrayELearnApi.Application.Interfaces.Repositories.Base;
 using System.Data;
 
-namespace ArrayELearnApi.Domain.Interfaces.UoW
+namespace ArrayELearnApi.Application.Interfaces.UoW
 {
-    public interface ILoggingUnitOfWork : IDisposable, IAsyncDisposable
+    public interface IUnitOfWork : IDisposable, IAsyncDisposable
     {
         IRepository<TEntity> Repository<TEntity>() where TEntity : class;
 

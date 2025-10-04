@@ -1,7 +1,7 @@
-﻿using ArrayELearnApi.Domain.Interfaces.Repositories;
+﻿using ArrayELearnApi.Application.Interfaces.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
-namespace ArrayELearnApi.Infrastructure.Repositories
+namespace ArrayELearnApi.Infrastructure.Repositories.Base
 {
     public class Repository<TEntity>(DbContext context) : IRepository<TEntity> where TEntity : class
     {

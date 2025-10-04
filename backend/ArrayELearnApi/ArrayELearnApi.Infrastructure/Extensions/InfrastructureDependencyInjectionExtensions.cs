@@ -1,10 +1,10 @@
 ﻿using ArrayELearnApi.Application.Interfaces.Auth;
+using ArrayELearnApi.Application.Interfaces.Repositories;
+using ArrayELearnApi.Application.Interfaces.Repositories.Base;
+using ArrayELearnApi.Application.Interfaces.UoW;
 using ArrayELearnApi.Application.Services.Auth;
-using ArrayELearnApi.Domain.Entities.Base;
-using ArrayELearnApi.Domain.Interfaces.Repositories;
-using ArrayELearnApi.Domain.Interfaces.UoW;
-using ArrayELearnApi.Infrastructure.Persistence;
 using ArrayELearnApi.Infrastructure.Repositories;
+using ArrayELearnApi.Infrastructure.Repositories.Base;
 using ArrayELearnApi.Infrastructure.Services.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,14 +34,15 @@ namespace ArrayELearnApi.Infrastructure.Extensions
             services.AddScoped<IInstructorRepository, InstructorRepository>();
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ISubmissionRepository, SubmissionRepository>();
-            services.AddScoped<IStatusRepository, StatusRepository>();
-            //services.AddScoped<DbContext, ApplicationDbContext>();
             //services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            //services.AddScoped<DbContext, ApplicationDbContext>();
+            //services.AddScoped(typeof(IRepository<>), typeof(Repository<,>));
+            //services.AddScoped(typeof(IApplicationRepository<>), typeof(ApplicationRepository<>));
+            //services.AddScoped(typeof(ILoggingRepository<>), typeof(LoggingRepository<>));
             //services.AddScoped<IUnitOfWork, UnitOfWork>();
             //services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
-            services.AddScoped<IApplicationUnitOfWork, UnitOfWork<ApplicationDbContext>>();
+            services.AddScoped<IApplicationUnitOfWork, ApplicationUnitOfWork>();
             //services.AddScoped<ILoggingUnitOfWork, UnitOfWork<LoggingDbContext>>();
 
             services.AddScoped<IUserService, UserService>();
@@ -52,10 +53,5 @@ namespace ArrayELearnApi.Infrastructure.Extensions
 
             return services;
         }
-    }
-
-    public class StatusRepository : Repository<Status>, IStatusRepository
-    {
-        public StatusRepository(ApplicationDbContext context) : base(context) { }
     }
 }

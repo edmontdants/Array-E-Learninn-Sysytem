@@ -1,6 +1,7 @@
-﻿using ArrayELearnApi.Domain.Entities.Domain;
-using ArrayELearnApi.Domain.Interfaces.Repositories;
+﻿using ArrayELearnApi.Application.Interfaces.Repositories;
+using ArrayELearnApi.Domain.Entities.Domain;
 using ArrayELearnApi.Infrastructure.Persistence;
+using ArrayELearnApi.Infrastructure.Repositories.Base;
 
 namespace ArrayELearnApi.Infrastructure.Repositories
 {

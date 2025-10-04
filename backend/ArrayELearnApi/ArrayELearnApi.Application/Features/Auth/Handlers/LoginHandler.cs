@@ -1,9 +1,9 @@
 ﻿using ArrayELearnApi.Application.DTOs.Auth;
 using ArrayELearnApi.Application.Features.Auth.Commands;
 using ArrayELearnApi.Application.Interfaces.Auth;
+using ArrayELearnApi.Application.Interfaces.Repositories;
 using ArrayELearnApi.Domain.Entities;
 using ArrayELearnApi.Domain.Entities.Auth;
-using ArrayELearnApi.Domain.Interfaces.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;

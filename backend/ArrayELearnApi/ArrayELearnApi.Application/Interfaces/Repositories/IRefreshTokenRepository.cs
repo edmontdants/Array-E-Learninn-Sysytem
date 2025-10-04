@@ -1,6 +1,7 @@
-﻿using ArrayELearnApi.Domain.Entities.Auth;
+﻿using ArrayELearnApi.Application.Interfaces.Repositories.Base;
+using ArrayELearnApi.Domain.Entities.Auth;
 
-namespace ArrayELearnApi.Domain.Interfaces.Repositories
+namespace ArrayELearnApi.Application.Interfaces.Repositories
 {
     public interface IRefreshTokenRepository : IRepository<RefreshToken>
     {

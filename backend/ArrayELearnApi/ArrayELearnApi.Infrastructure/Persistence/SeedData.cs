@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using ArrayELearnApi.Domain.Entities.Auth;
-using ArrayELearnApi.Domain.Interfaces.UoW;
+using ArrayELearnApi.Application.Interfaces.UoW;
 
 namespace ArrayELearnApi.Infrastructure.Persistence
 {
@@ -36,8 +36,7 @@ namespace ArrayELearnApi.Infrastructure.Persistence
                 await userManager.AddToRoleAsync(ownerUser, UserRole.Owner);
             }
 
-            //var statusRepo = unitOfWork.Repository<Domain.Entities.Base.Status>();
-            var statusRepo = unitOfWork.statusRepository;
+            var statusRepo = unitOfWork.Repository<Domain.Entities.Base.Status>();
             var status = await statusRepo.GetAllAsync();
 
             string[] Status = [Domain.Constants.Status.Active, Domain.Constants.Status.InActive ];

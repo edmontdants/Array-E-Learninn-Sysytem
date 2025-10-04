@@ -1,10 +1,10 @@
 ﻿using ArrayELearnApi.Application.DTOs.Auth;
 using ArrayELearnApi.Application.Features.Auth.Commands;
 using ArrayELearnApi.Application.Interfaces.Auth;
+using ArrayELearnApi.Application.Interfaces.UoW;
 using ArrayELearnApi.Domain.Constants;
 using ArrayELearnApi.Domain.Entities.Auth;
 using ArrayELearnApi.Domain.Entities.Domain;
-using ArrayELearnApi.Domain.Interfaces.UoW;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -50,7 +50,7 @@ namespace ArrayELearnApi.Application.Features.Auth.Handlers
                         return new AuthResponse { IsSuccessed = false, Message = errors };
                     }
                     
-                    var studentRepository = uow.studentRepository;
+                    var studentRepository = uow.Repository<Student>();
                     var student = mapper.Map<Student>(user);
                     student.CREATEDBY = user.Id;
                     studentRepository.Add(student);

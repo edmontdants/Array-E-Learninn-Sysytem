@@ -1,5 +1,5 @@
 ﻿using ArrayELearnApi.Application.Features.Auth.Commands;
-using ArrayELearnApi.Domain.Interfaces.Repositories;
+using ArrayELearnApi.Application.Interfaces.Repositories;
 using MediatR;
 using Microsoft.Extensions.Logging;
 

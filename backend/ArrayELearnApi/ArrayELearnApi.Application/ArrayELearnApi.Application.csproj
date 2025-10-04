@@ -16,8 +16,4 @@
     <ProjectReference Include="..\ArrayELearnApi.Domain\ArrayELearnApi.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Interfaces\Repositories\" />
-  </ItemGroup>
-
 </Project>
